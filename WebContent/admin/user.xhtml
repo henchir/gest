@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../facelets/main.xhtml">
+<ui:define name="title">
+<h1>Users</h1>
+</ui:define>
+	<ui:define name="content">
+		<h:body>
+			<p:dialog header="Nouveau Utilisateur" widgetVar="dlg2" modal="true"
+				resizable="false" appendTo="@(body)">
+				<h:form id="pan">
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<h:outputText value="CIN" />
+						<p:inputText value="#{userBean.user.cin}" />
+
+						<h:outputText value="Nom" />
+						<p:inputText value="#{userBean.user.nom}" />
+
+						<h:outputText value="Prénom" />
+						<p:inputText value="#{userBean.user.prenom}" />
+
+						<h:outputText value="Téléphone" />
+						<p:inputText value="#{userBean.user.telephone}" />
+
+						<h:outputText value="E-MAIL" />
+						<p:inputText value="#{userBean.user.email}" />
+
+						<h:outputText value="Nom d'utilisateur" />
+						<p:inputText value="#{userBean.user.username}" />
+
+						<h:outputText value="Mot de passe" />
+						<p:password value="#{userBean.user.password}" />
+
+						<h:outputText value="Statut" />
+						<p:inputText value="#{userBean.user.enabled}" />
+
+						<h:outputText value="Role" />
+						<p:inputText value="#{userBean.user.role}" />
+
+						<p:commandButton value="Enregistrer" update=":form:tab"
+							action="#{userBean.ajouter()}" oncomplete="PF('dlg2').hide();" />
+
+						<p:commandButton value="Annuler" onclick="PF('dlg2').hide();" />
+
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+
+			<h:form id="form">
+				<h:panelGrid id="panel" columns="1" cellpadding="5"
+					style="width: 80%; margin: 0 auto;">
+
+					<p:toolbar id="toolbar">
+						<f:facet name="left">
+							<p:commandButton title="Ajouter" icon="ui-icon-document"
+								onclick="PF('dlg2').show();" process="@this" update="pan" />
+
+							<span class="ui-separator"> <span
+								class="ui-icon ui-icon-grip-dotted-vertical" />
+							</span>
+
+							<p:commandButton title="Modifier" icon="ui-icon-pencil" />
+
+							<p:commandButton title="Supprimer" icon="ui-icon-trash" >
+								<p:confirm header="Confirmation" message="Are you sure?" />
+							</p:commandButton>
+							<span class="ui-separator"> <span
+								class="ui-icon ui-icon-grip-dotted-vertical" />
+							</span>
+							<p:commandButton icon="ui-icon-refresh" />
+
+						</f:facet>
+
+						<f:facet name="right">
+
+						</f:facet>
+
+					</p:toolbar>
+
+					<p:dataTable id="tab" var="usr" value="#{userBean.users}"
+						widgetVar="uTable" paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15" rowKey="#{usr.username}"
+						selection="#{userBean.selectedUsers}" lazy="true">
+
+						<p:column selectionMode="multiple"
+							style="width:16px;text-align:center" />
+
+						<p:column headerText="CIN" sortBy="#{usr.cin}" >
+							<h:outputText value="#{usr.cin}" />
+						</p:column>
+						
+						<p:column headerText="Nom d'utilisateur" sortBy="#{usr.username}" >
+							<h:outputText value="#{usr.username}" />
+						</p:column>
+
+						<p:column headerText="Role" sortBy="#{usr.role}" >
+							<h:outputText value="#{usr.role}" />
+						</p:column>
+
+					</p:dataTable>
+				</h:panelGrid>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes" />
+					<p:commandButton value="No" styleClass="ui-confirmdialog-no" />
+				</p:confirmDialog>
+			</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:body>
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse"
+			data-target=".sidebar-collapse">
+			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+			<span class="icon-bar"></span> <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+	</div>
+
+	<ul class="nav navbar-top-links navbar-right">
+
+		<li class="dropdown"><a class="dropdown-toggle"
+			data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
+				<i class="fa fa-caret-down"></i>
+		</a>
+			<ul class="dropdown-menu dropdown-user">
+				<li><h:outputLink
+						value="#{facesContext.externalContext.request.contextPath}/j_spring_security_logout">
+						Déconnexion
+						</h:outputLink></li>
+			</ul> <!-- /.dropdown-user --></li>
+		<!-- /.dropdown -->
+	</ul>
+</h:body>
+</html>

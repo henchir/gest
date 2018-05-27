@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>Start Bootstrap - SB Admin Version 2.0 Demo</title>
+
+    <!-- Core CSS - Include with every page -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+
+    <!-- Page-Level Plugin CSS - Blank -->
+
+    <!-- SB Admin CSS - Include with every page -->
+    <link href="../assets/css/sb-admin.css" rel="stylesheet"/>
+
+</h:head>
+<h:body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+<ui:include src="../facelets/header.xhtml"></ui:include>
+<ui:include src="../facelets/menu.xhtml"></ui:include>
+</nav>
+<div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ui:insert name="title"></ui:insert>
+                </div>
+                <ui:insert name="content"></ui:insert>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+<!-- Core Scripts - Include with every page -->
+<!--     <script src="../assets/js/jquery-1.10.2.js"></script> -->
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- Page-Level Plugin Scripts - Blank -->
+
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="../assets/js/sb-admin.js"></script>
+
+    <!-- Page-Level Demo Scripts - Blank - Use for reference -->
+</h:body>
+</html>

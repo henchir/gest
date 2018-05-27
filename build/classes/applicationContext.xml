@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+      http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context 
+      http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/tx 
+      http://www.springframework.org/schema/tx/spring-tx.xsd
+      http://www.springframework.org/schema/security 
+      http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<context:component-scan base-package="com.gestion" />
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+	<bean name="mysqlDS" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521/pdb1"></property>
+		<property name="username" value="JAVA_DEV"></property>
+		<property name="password" value="dev"></property>
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="mysqlDS" />
+		<property name="packagesToScan" value="com.gestion.entity" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">1000</prop>
+				<prop key="hibernate.order_inserts">true</prop>
+				
+			</props>
+		</property>
+
+	</bean>
+
+	<security:http pattern="/faces/login/**" security="none"></security:http>
+	<security:http use-expressions="true" access-denied-page="/faces/page/denied.xhtml">
+
+		<security:intercept-url pattern="/faces/admin/**"
+			access="hasRole('ROLE_ADMIN')" />
+
+		<security:intercept-url pattern="/faces/user/**"
+			access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+
+		<security:intercept-url pattern="/faces/facelets/**"
+			access="denyAll" />
+
+		<security:intercept-url pattern="/faces/page/**"
+			access="isAuthenticated()" />
+
+		<security:form-login login-processing-url="/faces/j_spring_security_check"
+			login-page="/faces/login/login.xhtml" authentication-failure-url="/faces/login/login.xhtml?error=1"
+			default-target-url="/faces/page/index.xhtml" username-parameter="j_username"
+			password-parameter="j_password" />
+
+		<security:logout logout-success-url="/faces/login/login.xhtml" />
+	</security:http>
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service
+				data-source-ref="mysqlDS" authorities-by-username-query="select username,role from users where username=?" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>
